@@ -13,9 +13,32 @@ struct WeatherAnimationView: View {
     let animationName: String
     
     var body: some View {
-        LottieView(animation: .named(animationName))
-            .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
-            .animationSpeed(0.8)
+        // 嘗試載入 Lottie 動畫，如果失敗則顯示 SF Symbol
+        if let animation = LottieAnimation.named(animationName) {
+            LottieView(animation: animation)
+                .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
+                .animationSpeed(0.8)
+        } else {
+            // 備用的 SF Symbol 圖示
+            Image(systemName: fallbackIcon)
+                .font(.system(size: 80))
+                .foregroundColor(.blue)
+        }
+    }
+    
+    private var fallbackIcon: String {
+        switch animationName {
+        case "weather-sunny":
+            return "sun.max.fill"
+        case "weather-rainy":
+            return "cloud.rain.fill"
+        case "weather-cloudy":
+            return "cloud.fill"
+        case "weather-snow":
+            return "cloud.snow.fill"
+        default:
+            return "cloud.sun.fill"
+        }
     }
 }
 
