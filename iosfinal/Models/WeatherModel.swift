@@ -259,6 +259,9 @@ struct WeatherData: Identifiable, Equatable {
     // 顯示用的溫度字串
     var temperatureDisplay: String {
         if let min = minTemperature, let max = maxTemperature {
+            if min == max {
+                return min
+            }
             return "\(min) - \(max)"
         } else if let min = minTemperature {
             return min
