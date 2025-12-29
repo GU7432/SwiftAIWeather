@@ -143,7 +143,21 @@ struct ContentView: View {
                                         .shadow(radius: 4)
                                     
                                     // AI Insights
-                                    if let insight = viewModel.aiInsight {
+                                    if viewModel.isGeneratingAI {
+                                        VStack(spacing: 12) {
+                                            HStack {
+                                                ProgressView()
+                                                    .padding(.trailing, 8)
+                                                Text("正在生成 AI 天氣分析...")
+                                                    .foregroundColor(.gray)
+                                            }
+                                            .frame(maxWidth: .infinity)
+                                            .padding()
+                                            .background(Color.white)
+                                            .cornerRadius(12)
+                                            .shadow(radius: 4)
+                                        }
+                                    } else if let insight = viewModel.aiInsight {
                                         VStack(spacing: 12) {
                                             TipView(aiInsightTip)
                                                 .padding(.horizontal)

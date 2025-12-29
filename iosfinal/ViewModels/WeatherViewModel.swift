@@ -6,6 +6,7 @@ class WeatherViewModel: ObservableObject {
     @Published var weatherData: WeatherData?
     @Published var aiInsight: AIInsight?
     @Published var isLoading = false
+    @Published var isGeneratingAI = false
     @Published var errorMessage: String?
     @Published var selectedLocation = "臺北市"
     @Published var selectedDistrict: String? = nil
@@ -52,17 +53,22 @@ class WeatherViewModel: ObservableObject {
             NSLog("   ☁️ Condition: \(weather.condition ?? "nil")")
             
             self.weatherData = weather
+            self.isLoading = false
             
             // 2. 使用 AI 生成洞察
+            self.isGeneratingAI = true
+            self.aiInsight = nil // 清除舊的洞察，避免混淆
+            
             let insight = await aiService.generateInsights(for: weather)
             self.aiInsight = insight
+            self.isGeneratingAI = false
             
         } catch {
             NSLog("❌ [ViewModel] Error: \(error)")
             self.errorMessage = error.localizedDescription
+            self.isLoading = false
+            self.isGeneratingAI = false
         }
-        
-        isLoading = false
     }
     
     // MARK: - Load Available Districts
