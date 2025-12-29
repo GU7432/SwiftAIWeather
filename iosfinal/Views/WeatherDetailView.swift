@@ -1,7 +1,22 @@
 import SwiftUI
+import Lottie
 
 struct WeatherDetailView: View {
     let weatherData: WeatherData
+    
+    // 根據天氣狀況取得對應的動畫名稱
+    private var weatherAnimationName: String {
+        let condition = weatherData.condition?.lowercased() ?? ""
+        if condition.contains("雨") {
+            return "weather-rainy"
+        } else if condition.contains("雲") || condition.contains("陰") {
+            return "weather-cloudy"
+        } else if condition.contains("雪") {
+            return "weather-snow"
+        } else {
+            return "weather-sunny"
+        }
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -21,17 +36,23 @@ struct WeatherDetailView: View {
             
             Divider()
             
-            // Temperature Card
-            VStack(alignment: .leading, spacing: 8) {
-                Label("溫度", systemImage: "thermometer")
-                    .font(.headline)
-                HStack {
-                    Text(weatherData.temperatureDisplay)
-                        .font(.system(size: 40, weight: .bold))
-                    Text("°C")
+            // Temperature Card with Lottie Animation
+            HStack(spacing: 16) {
+                // Lottie 天氣動畫
+                WeatherAnimationView(animationName: weatherAnimationName)
+                    .frame(width: 100, height: 100)
+                
+                VStack(alignment: .leading, spacing: 8) {
+                    Label("溫度", systemImage: "thermometer")
                         .font(.headline)
-                    Spacer()
+                    HStack {
+                        Text(weatherData.temperatureDisplay)
+                            .font(.system(size: 40, weight: .bold))
+                        Text("°C")
+                            .font(.headline)
+                    }
                 }
+                Spacer()
             }
             .padding()
             .background(Color.blue.opacity(0.1))

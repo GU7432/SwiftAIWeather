@@ -1,8 +1,6 @@
 import Foundation
 import os.log
 
-private let logger = Logger(subsystem: "matt.iosfinal", category: "WeatherService")
-
 class WeatherService {
     static let shared = WeatherService()
     

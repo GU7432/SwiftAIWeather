@@ -1,4 +1,5 @@
 import SwiftUI
+import MarkdownUI
 
 struct AIInsightView: View {
     let insight: AIInsight
@@ -29,9 +30,12 @@ struct AIInsightView: View {
             VStack(alignment: .leading, spacing: 8) {
                 Label("天氣摘要", systemImage: "doc.text")
                     .font(.headline)
-                Text(insight.summary)
-                    .font(.body)
+                Markdown(insight.summary)
+                    .markdownTextStyle {
+                        FontSize(.em(0.95))
+                    }
                     .padding()
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .background(Color.blue.opacity(0.1))
                     .cornerRadius(8)
             }
@@ -40,9 +44,12 @@ struct AIInsightView: View {
             VStack(alignment: .leading, spacing: 8) {
                 Label("生活建議", systemImage: "lightbulb.fill")
                     .font(.headline)
-                Text(insight.recommendation)
-                    .font(.body)
+                Markdown(insight.recommendation)
+                    .markdownTextStyle {
+                        FontSize(.em(0.95))
+                    }
                     .padding()
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .background(Color.yellow.opacity(0.1))
                     .cornerRadius(8)
             }
@@ -51,9 +58,12 @@ struct AIInsightView: View {
             VStack(alignment: .leading, spacing: 8) {
                 Label("穿衣建議", systemImage: "tshirt.fill")
                     .font(.headline)
-                Text(insight.clothingAdvice)
-                    .font(.body)
+                Markdown(insight.clothingAdvice)
+                    .markdownTextStyle {
+                        FontSize(.em(0.95))
+                    }
                     .padding()
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .background(Color.orange.opacity(0.1))
                     .cornerRadius(8)
             }
@@ -62,9 +72,12 @@ struct AIInsightView: View {
             VStack(alignment: .leading, spacing: 8) {
                 Label("活動建議", systemImage: "figure.walk")
                     .font(.headline)
-                Text(insight.activityAdvice)
-                    .font(.body)
+                Markdown(insight.activityAdvice)
+                    .markdownTextStyle {
+                        FontSize(.em(0.95))
+                    }
                     .padding()
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .background(Color.green.opacity(0.1))
                     .cornerRadius(8)
             }

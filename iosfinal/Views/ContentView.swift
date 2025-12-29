@@ -1,5 +1,88 @@
 import SwiftUI
 import TipKit
+import Shimmer
+
+// MARK: - Animation Views
+// 由於 AnimationViews.swift 可能未被正確加入專案，將其內容移至此處以確保編譯通過
+
+import Lottie
+
+/// Lottie 天氣動畫視圖
+/// 根據天氣狀況顯示對應的動畫效果
+struct WeatherAnimationView: View {
+    let animationName: String
+    
+    var body: some View {
+        LottieView(animation: .named(animationName))
+            .playbackMode(.playing(.toProgress(1, loopMode: .loop)))
+            .animationSpeed(0.8)
+    }
+}
+
+/// AI 分析骨架屏視圖
+/// 在等待 AI 生成內容時顯示閃爍的佔位卡片
+struct AIInsightSkeletonView: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            // Header 骨架
+            HStack {
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.gray.opacity(0.3))
+                    .frame(width: 180, height: 24)
+                Spacer()
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color.gray.opacity(0.3))
+                    .frame(width: 100, height: 24)
+            }
+            
+            Divider()
+            
+            // 天氣摘要骨架
+            VStack(alignment: .leading, spacing: 8) {
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.gray.opacity(0.3))
+                    .frame(width: 80, height: 18)
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(Color.blue.opacity(0.1))
+                    .frame(height: 60)
+            }
+            
+            // 生活建議骨架
+            VStack(alignment: .leading, spacing: 8) {
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.gray.opacity(0.3))
+                    .frame(width: 80, height: 18)
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(Color.yellow.opacity(0.1))
+                    .frame(height: 80)
+            }
+            
+            // 穿衣建議骨架
+            VStack(alignment: .leading, spacing: 8) {
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.gray.opacity(0.3))
+                    .frame(width: 80, height: 18)
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(Color.orange.opacity(0.1))
+                    .frame(height: 60)
+            }
+            
+            // 活動建議骨架
+            VStack(alignment: .leading, spacing: 8) {
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.gray.opacity(0.3))
+                    .frame(width: 80, height: 18)
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(Color.green.opacity(0.1))
+                    .frame(height: 60)
+            }
+        }
+        .padding()
+        .background(Color.white)
+        .cornerRadius(12)
+        .shadow(radius: 4)
+    }
+}
 
 struct ContentView: View {
     @StateObject private var viewModel = WeatherViewModel()
@@ -144,19 +227,9 @@ struct ContentView: View {
                                     
                                     // AI Insights
                                     if viewModel.isGeneratingAI {
-                                        VStack(spacing: 12) {
-                                            HStack {
-                                                ProgressView()
-                                                    .padding(.trailing, 8)
-                                                Text("正在生成 AI 天氣分析...")
-                                                    .foregroundColor(.gray)
-                                            }
-                                            .frame(maxWidth: .infinity)
-                                            .padding()
-                                            .background(Color.white)
-                                            .cornerRadius(12)
-                                            .shadow(radius: 4)
-                                        }
+                                        // Shimmer 骨架屏效果
+                                        AIInsightSkeletonView()
+                                            .shimmering()
                                     } else if let insight = viewModel.aiInsight {
                                         VStack(spacing: 12) {
                                             TipView(aiInsightTip)
