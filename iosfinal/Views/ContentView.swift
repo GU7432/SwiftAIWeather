@@ -1,8 +1,14 @@
 import SwiftUI
+import TipKit
 
 struct ContentView: View {
     @StateObject private var viewModel = WeatherViewModel()
     @State private var showingLocationPicker = false
+    
+    // Tips
+    private let changeCityTip = ChangeCityTip()
+    private let aiInsightTip = AIInsightTip()
+    private let districtPickerTip = DistrictPickerTip()
     
     var body: some View {
         NavigationStack {
@@ -50,6 +56,7 @@ struct ContentView: View {
                                     .background(Color.white.opacity(0.3))
                                     .cornerRadius(8)
                             }
+                            .popoverTip(changeCityTip, arrowEdge: .top)
                         }
                         .padding()
                         
@@ -97,6 +104,7 @@ struct ContentView: View {
                                     .background(Color.blue.opacity(0.1))
                                     .cornerRadius(6)
                                 }
+                                .popoverTip(districtPickerTip, arrowEdge: .top)
                             }
                             .padding(.horizontal)
                             .padding(.bottom, 8)
@@ -136,10 +144,15 @@ struct ContentView: View {
                                     
                                     // AI Insights
                                     if let insight = viewModel.aiInsight {
-                                        AIInsightView(insight: insight)
-                                            .background(Color.white)
-                                            .cornerRadius(12)
-                                            .shadow(radius: 4)
+                                        VStack(spacing: 12) {
+                                            TipView(aiInsightTip)
+                                                .padding(.horizontal)
+                                            
+                                            AIInsightView(insight: insight)
+                                                .background(Color.white)
+                                                .cornerRadius(12)
+                                                .shadow(radius: 4)
+                                        }
                                     }
                                 }
                             } else {
